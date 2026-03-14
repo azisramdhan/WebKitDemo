@@ -1,0 +1,28 @@
+# Xcode
+build/
+*.pbxproj
+*.xcworkspace
+xcuserdata/
+*.xcscheme
+*.xccheckout
+*.xcmappingmodel
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# XcodeGen
+*.xcodeproj
+
+# OS X
+.DS_Store
+
+# SwiftPM
+.build/
+Packages/
+Package.pins
+
+# CocoaPods
+Pods/
+Podfile.lock

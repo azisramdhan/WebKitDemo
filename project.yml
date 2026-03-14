@@ -1,0 +1,54 @@
+name: WebKitDemo
+options:
+  bundleIdPrefix: com.demo
+  deploymentTarget:
+    iOS: 16.0
+targets:
+  WebKitDemo:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+      - path: Features
+      - path: WebViewContainer
+      - path: Bridge
+      - path: Security
+      - path: Networking
+      - path: Domain
+      - path: Resources
+      - path: Configuration
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+      INFOPLIST_KEY_UILaunchStoryboardName: LaunchScreen
+      INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+      INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+    info:
+      path: App/Info.plist
+      properties:
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+        NSCameraUsageDescription: "Camera access is needed to capture photos for demo features."
+        NSPhotoLibraryUsageDescription: "Photo library access is needed to upload photos."
+
+  WebKitDemoTests:
+    type: bundle.unit-test
+    platform: iOS
+    dependencies:
+      - target: WebKitDemo
+    sources:
+      - path: Tests
+
+  WebKitDemoUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    dependencies:
+      - target: WebKitDemo
+    sources:
+      - path: UITests

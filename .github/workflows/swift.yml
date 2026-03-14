@@ -1,0 +1,40 @@
+name: iOS Build and Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install XcodeGen
+      run: brew install xcodegen
+
+    - name: Generate Xcode Project
+      run: xcodegen generate
+
+    - name: Run SwiftLint
+      run: |
+        if which swiftlint >/dev/null; then
+          swiftlint
+        else
+          echo "warning: SwiftLint not installed, downloading..."
+          brew install swiftlint
+          swiftlint
+        fi
+
+    - name: Execute Tests
+      run: |
+        xcodebuild test \
+          -project WebKitDemo.xcodeproj \
+          -scheme WebKitDemo \
+          -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=latest' \
+          CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO

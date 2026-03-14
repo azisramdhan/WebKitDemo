@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WebKit Demo Bridge</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f2f2f7; color: #1c1c1e; margin: 0; padding: 20px; text-align: center; }
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        button { background-color: #007aff; color: white; border: none; border-radius: 8px; padding: 12px 24px; font-size: 16px; font-weight: 600; cursor: pointer; display: block; width: 100%; margin: 10px 0; }
+        button:active { opacity: 0.8; }
+        .output { background: #e5e5ea; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 12px; margin-top: 10px; text-align: left; overflow-x: auto; }
+        h1 { font-size: 24px; margin-bottom: 5px; }
+        h2 { font-size: 16px; color: #8e8e93; font-weight: 500; margin-top: 0; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>WebKit Bridge Demo</h1>
+    <h2>Test native communication via WKScriptMessageHandler</h2>
+    
+    <div class="card">
+        <button onclick="Bridge.showToast('Hello from the WebKit Bridge!')">Show Native Toast</button>
+        <button onclick="Bridge.openNativeScreen('ProfileSettings')">Open Native Settings</button>
+        <button onclick="requestDeviceData()">Request Device Profile</button>
+        <div id="dataOutput" class="output">Awaiting data promise...</div>
+    </div>
+    
+    <div class="card">
+        <button style="background-color: #ff3b30;" onclick="Bridge.logout()">Logout App</button>
+    </div>
+    
+    <script src="bridge.js"></script>
+    <script>
+        function requestDeviceData() {
+            document.getElementById('dataOutput').innerText = "Loading from swift delegate...";
+            Bridge.requestNativeData().then(data => {
+                document.getElementById('dataOutput').innerText = "Success:\n" + JSON.stringify(data, null, 2);
+            }).catch(err => {
+                document.getElementById('dataOutput').innerText = "Error: " + err;
+            });
+        }
+    </script>
+</body>
+</html>
