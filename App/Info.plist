@@ -44,5 +44,10 @@
 			</array>
 		</dict>
 	</dict>
+	<key>WKAppBoundDomains</key>
+	<array>
+		<string>example.com</string>
+		<string>auth.example.com</string>
+	</array>
 </dict>
 </plist>

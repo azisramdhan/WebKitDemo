@@ -36,6 +36,12 @@ targets:
           NSAllowsArbitraryLoads: true
         NSCameraUsageDescription: "Camera access is needed to capture photos for demo features."
         NSPhotoLibraryUsageDescription: "Photo library access is needed to upload photos."
+        # Feature 14: App-Bound Domains (iOS 14+) - restricts WKWebView at the engine level
+        # to only load content from these domains, enhancing user privacy.
+        # NOTE: This restricts WKScriptMessageHandlerWithReply and some JS APIs to these domains only.
+        WKAppBoundDomains:
+          - example.com
+          - auth.example.com
 
   WebKitDemoTests:
     type: bundle.unit-test
