@@ -3,6 +3,17 @@ import UIKit
 public class LoginViewController: UIViewController {
     
     private let authService = AuthService.shared
+    private let bundle: Bundle
+    
+    public init(bundle: Bundle = .main) {
+        self.bundle = bundle
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,16 +37,19 @@ public class LoginViewController: UIViewController {
         
         let usernameField = UITextField()
         usernameField.placeholder = "Username"
+        usernameField.accessibilityIdentifier = "Username"
         usernameField.borderStyle = .roundedRect
         usernameField.autocapitalizationType = .none
         
         let passwordField = UITextField()
         passwordField.placeholder = "Password"
+        passwordField.accessibilityIdentifier = "Password"
         passwordField.borderStyle = .roundedRect
         passwordField.isSecureTextEntry = true
         
         let loginButton = UIButton(type: .system)
         loginButton.setTitle("Log In", for: .normal)
+        loginButton.accessibilityIdentifier = "Log In"
         loginButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         loginButton.backgroundColor = .systemBlue
         loginButton.setTitleColor(.white, for: .normal)
@@ -44,6 +58,7 @@ public class LoginViewController: UIViewController {
         
         let localDemoButton = UIButton(type: .system)
         localDemoButton.setTitle("Skip to Local HTML Demo", for: .normal)
+        localDemoButton.accessibilityIdentifier = "Skip to Local HTML Demo"
         localDemoButton.addTarget(self, action: #selector(localDemoTapped), for: .touchUpInside)
         
         let stack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel, usernameField, passwordField, loginButton, localDemoButton])
@@ -69,7 +84,7 @@ public class LoginViewController: UIViewController {
     private var passwordField: UITextField!
     private var loginButton: UIButton!
     
-    @objc private func loginTapped() {
+    @objc func loginTapped() {
         guard let user = usernameField.text, !user.isEmpty,
               let pass = passwordField.text, !pass.isEmpty else { return }
         
@@ -92,8 +107,8 @@ public class LoginViewController: UIViewController {
         }
     }
     
-    @objc private func localDemoTapped() {
-        guard let path = Bundle.main.path(forResource: "index", ofType: "html"),
+    @objc func localDemoTapped() {
+        guard let path = bundle.path(forResource: "index", ofType: "html"),
               let url = URL(string: "file://\(path)") else {
             let alert = UIAlertController(title: "Error", message: "Local HTML file missing in bundle", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -103,9 +118,10 @@ public class LoginViewController: UIViewController {
         navigateToWeb(url: url)
     }
     
-    private func navigateToWeb(url: URL) {
+    func navigateToWeb(url: URL) {
         let viewModel = WebViewModel(startURL: url)
         let webVC = WebViewController(viewModel: viewModel)
         navigationController?.pushViewController(webVC, animated: true)
     }
 }
+

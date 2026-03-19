@@ -18,8 +18,12 @@ public class WebNavigationDelegate: NSObject, WKNavigationDelegate {
     }
     
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        
-        guard let url = navigationAction.request.url else {
+        decidePolicy(for: navigationAction.request.url, isNewWindow: navigationAction.targetFrame == nil, decisionHandler: decisionHandler)
+    }
+    
+    // Internal method for unit testing without WKNavigationAction or WKFrameInfo
+    internal func decidePolicy(for url: URL?, isNewWindow: Bool, decisionHandler: (WKNavigationActionPolicy) -> Void) {
+        guard let url = url else {
             decisionHandler(.cancel)
             return
         }
@@ -32,7 +36,7 @@ public class WebNavigationDelegate: NSObject, WKNavigationDelegate {
         }
         
         // Handle target=_blank or links explicitly opened in new window/tab
-        if navigationAction.targetFrame == nil {
+        if isNewWindow {
             observer?.openExternalLink(url: url)
             decisionHandler(.cancel)
             return
