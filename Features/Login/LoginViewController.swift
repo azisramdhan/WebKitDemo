@@ -25,7 +25,7 @@ public class LoginViewController: UIViewController {
         title = "Login"
         
         let titleLabel = UILabel()
-        titleLabel.text = "WebKit Demo App"
+        titleLabel.text = "WebKit Demo App (PR #1)"
         titleLabel.font = .systemFont(ofSize: 28, weight: .bold)
         titleLabel.textAlignment = .center
         
