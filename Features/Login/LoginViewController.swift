@@ -30,7 +30,7 @@ public class LoginViewController: UIViewController {
         titleLabel.textAlignment = .center
         
         let subtitleLabel = UILabel()
-        subtitleLabel.text = "admin / password"
+        subtitleLabel.text = "admin / password  ·  loupe-test"
         subtitleLabel.font = .systemFont(ofSize: 14)
         subtitleLabel.textColor = .secondaryLabel
         subtitleLabel.textAlignment = .center

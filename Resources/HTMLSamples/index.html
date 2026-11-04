@@ -12,6 +12,13 @@
         .output { background: #e5e5ea; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 12px; margin-top: 10px; text-align: left; overflow-x: auto; }
         h1 { font-size: 24px; margin-bottom: 5px; }
         h2 { font-size: 16px; color: #8e8e93; font-weight: 500; margin-top: 0; margin-bottom: 20px; }
+        h3 { font-size: 15px; margin: 0 0 6px; text-align: left; }
+        .card p { font-size: 14px; line-height: 1.5; color: #3a3a3c; margin: 0; text-align: left; }
+        .card code { font-family: monospace; font-size: 13px; background: #e5e5ea; padding: 1px 5px; border-radius: 4px; }
+        .step { display: flex; gap: 12px; text-align: left; margin-bottom: 14px; }
+        .step:last-child { margin-bottom: 0; }
+        .num { flex: none; width: 24px; height: 24px; border-radius: 12px; background: #007aff; color: white; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+        .step div { font-size: 14px; line-height: 1.45; color: #3a3a3c; }
     </style>
 </head>
 <body>
@@ -25,6 +32,38 @@
         <div id="dataOutput" class="output">Awaiting data promise...</div>
     </div>
     
+
+    <div class="card">
+        <h3>What this page is for</h3>
+        <p>Every button above crosses the boundary between the web view and the app. The page posts a message, Swift handles it, and anything that comes back arrives as a resolved promise. Nothing here talks to a network.</p>
+    </div>
+
+    <div class="card">
+        <h3>Bridge reference</h3>
+        <div class="step"><span class="num">1</span><div><code>showToast(text)</code> — hands a string to the app, which draws it over the web view and fades it out. One way; nothing is returned.</div></div>
+        <div class="step"><span class="num">2</span><div><code>openNativeScreen(name)</code> — asks the app to present a screen by name. Unknown names are reported back instead of ignored.</div></div>
+        <div class="step"><span class="num">3</span><div><code>requestNativeData()</code> — the only call that answers. It returns a promise that settles once Swift replies with the device profile.</div></div>
+        <div class="step"><span class="num">4</span><div><code>logout()</code> — clears the stored token and pops back to the login screen. The web view is discarded with it.</div></div>
+    </div>
+
+    <div class="card">
+        <h3>How a message travels</h3>
+        <div class="step"><span class="num">1</span><div>The page calls a method on the injected <code>Bridge</code> object.</div></div>
+        <div class="step"><span class="num">2</span><div>That method posts to a named message handler registered on the web view's content controller.</div></div>
+        <div class="step"><span class="num">3</span><div>Swift receives the message, decides what it means, and acts.</div></div>
+        <div class="step"><span class="num">4</span><div>For calls that answer, Swift resolves the promise the page is already holding.</div></div>
+    </div>
+
+    <div class="card">
+        <h3>Why the page is this long</h3>
+        <p>It used to fit on one screen, which meant a screenshot captured all of it and nothing was ever left out of frame. This section exists so the page runs past the bottom edge, and a tool that captures it has to scroll to see the rest.</p>
+    </div>
+
+    <div class="card">
+        <h3>Reaching the bottom</h3>
+        <p>If you can read this line in a captured image, the capture did not stop at the first screen.</p>
+    </div>
+
     <div class="card">
         <button style="background-color: #ff3b30;" onclick="Bridge.logout()">Logout App</button>
     </div>
